@@ -6,3 +6,16 @@
 body {
   margin: 0;
 }
+
+.editor {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.editor .cm-editor {
+  min-height: 100svh;
+}
+
+.editor .cm-editor.cm-focused {
+  outline: none;
+}

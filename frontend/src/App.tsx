@@ -1,5 +1,7 @@
+import Editor from './Editor.tsx'
+
 function App() {
-  return <main>dokuWriter</main>
+  return <Editor />
 }
 
 export default App
