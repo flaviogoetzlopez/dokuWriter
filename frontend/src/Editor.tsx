@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react'
-import { basicSetup, EditorView } from 'codemirror'
-import { markdown } from '@codemirror/lang-markdown'
-import { languages } from '@codemirror/language-data'
+import { EditorView } from '@codemirror/view'
+import { writingSetup } from './writingSetup.ts'
 
 const initialDoc = `# Hello dokuWriter
 
-Some **bold** and *italic* text.
+Some **bold**, *italic* and ~~struck~~ text with a [link](https://example.com).
+
+> A quote
+
+- a list item
 
 \`\`\`ts
 const answer: number = 42
@@ -21,11 +24,7 @@ function Editor() {
     const view = new EditorView({
       parent: parentRef.current!,
       doc: initialDoc,
-      extensions: [
-        basicSetup,
-        markdown({ codeLanguages: languages }),
-        EditorView.lineWrapping,
-      ],
+      extensions: [writingSetup],
     })
     // StrictMode mounts -> unmounts -> remounts in dev. Without destroy()
     // the second mount would append a second editor into the same <div>.
