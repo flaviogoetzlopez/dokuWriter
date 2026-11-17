@@ -1,0 +1,1 @@
+this architecture will be centralized, liek a star shaped topology 
