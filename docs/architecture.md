@@ -22,6 +22,7 @@ flowchart LR
   AI -. prompt / stream .- LLM[(LLM API)]
 ```
 
+
 | Component | Stack | Status |
 |---|---|---|
 | Frontend | Vite, React, TypeScript, Oxlint, CodeMirror 6 (`@codemirror/*`, `@lezer/highlight`) | editor done |
