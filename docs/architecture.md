@@ -26,7 +26,7 @@ flowchart LR
 |---|---|---|
 | Frontend | Vite, React, TypeScript, Oxlint, CodeMirror 6 (`@codemirror/*`, `@lezer/highlight`) | editor done |
 | Sync | Yjs, `y-websocket`, `y-codemirror.next` | planned |
-| Backend | Python, FastAPI, Uvicorn, WebSockets | planned |
+| Backend | Python, FastAPI, Uvicorn, WebSockets, `pycrdt` | planned |
 | AI collaborator | Backend-side Yjs client fed by a streaming LLM | planned |
 | Infrastructure | Docker Compose (local), Vercel (frontend), Render/Railway (backend container) | planned |
 | Persistence / auth (Phase 2) | Supabase (PostgreSQL, Google OAuth) | planned |
@@ -44,7 +44,7 @@ One WebSocket per client per room (`/document/:uuid`) carries two kinds of binar
 1. **Sync**: document updates. These are CRDT operations that every client merges, and they converge regardless of arrival order.
 2. **Awareness**: ephemeral presence per client (cursor, selection, name, color). It is never persisted, and the server must clear a client's presence when it disconnects.
 
-The server relays both kinds to every other client in the same room. Rooms are isolated by UUID.
+The server keeps a Y.Doc per room, applies every update to it, and relays both kinds to every other client in the same room. Late joiners sync against the server's doc. Rooms are isolated by UUID. ([ADR 0003](adr/0003-server-side-ydoc-with-pycrdt.md))
 
 ## Presence and cursors
 
