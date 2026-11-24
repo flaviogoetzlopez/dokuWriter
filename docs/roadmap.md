@@ -10,7 +10,7 @@
    - Awareness is never persisted, and a client's presence is cleared on disconnect.
 3. [ ] **CRDT binding.** Connect the editor to Yjs and `y-websocket`, and sync state across two local browser windows.
    - Remote cursors: each collaborator's caret, selection and name label via `y-codemirror.next` + Awareness. These are document-anchored relative positions, not pixel coordinates.
-4. [ ] **Zero-friction routing.** Visiting `/` generates a UUID and redirects to `/document/:uuid`. WebSocket broadcasts are isolated per UUID room.
+4. [ ] **Zero-friction routing.** Visiting `/` generates a UUID and redirects to `/document/:uuid`. The page connects to the backend at `/ws/documents/:uuid`, and WebSocket broadcasts are isolated per UUID room.
 5. [ ] **Basic AI collaborator (ghost cursor).**
    - A prompt input in the UI sends the current document text and the prompt to the backend.
    - The backend queries an LLM and streams the response into the room as Yjs insertions (insert only, never overwrite), as if a second user were typing.

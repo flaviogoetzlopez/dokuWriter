@@ -16,7 +16,7 @@ flowchart LR
   subgraph Browser B
     EB[CodeMirror 6] <--> YB[Y.Doc / Y.Text]
   end
-  YA <-- "WebSocket: sync + awareness" --> S[FastAPI room /document/:uuid]
+  YA <-- "WebSocket: sync + awareness" --> S[FastAPI room /ws/documents/:uuid]
   YB <-- "WebSocket: sync + awareness" --> S
   AI[AI collaborator] -- "Yjs inserts + awareness" --> S
   AI -. prompt / stream .- LLM[(LLM API)]
@@ -27,7 +27,7 @@ flowchart LR
 |---|---|---|
 | Frontend | Vite, React, TypeScript, Oxlint, CodeMirror 6 (`@codemirror/*`, `@lezer/highlight`) | editor done |
 | Sync | Yjs, `y-websocket`, `y-codemirror.next` | planned |
-| Backend | Python, FastAPI, Uvicorn, WebSockets, `pycrdt` | planned |
+| Backend | Python, FastAPI, Uvicorn, WebSockets, `pycrdt`. Dev tools: `pytest`, `httpx` (test client), `ruff` | in progress |
 | AI collaborator | Backend-side Yjs client fed by a streaming LLM | planned |
 | Infrastructure | Docker Compose (local), Vercel (frontend), Render/Railway (backend container) | planned |
 | Persistence / auth (Phase 2) | Supabase (PostgreSQL, Google OAuth) | planned |
@@ -40,7 +40,7 @@ Rendering is a **view concern**. Hiding Markdown syntax (Obsidian-style live pre
 
 ## Wire protocol
 
-One WebSocket per client per room (`/document/:uuid`) carries two kinds of binary Yjs message:
+One WebSocket per client per room (`/ws/documents/:uuid`) carries two kinds of binary Yjs message:
 
 1. **Sync**: document updates. These are CRDT operations that every client merges, and they converge regardless of arrival order.
 2. **Awareness**: ephemeral presence per client (cursor, selection, name, color). It is never persisted, and the server must clear a client's presence when it disconnects.
